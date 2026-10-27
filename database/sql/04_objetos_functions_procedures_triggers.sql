@@ -110,3 +110,41 @@ BEGIN
     VALUES (p_id_usuario, p_id_jogo, 0, NOW());
 END;
 $$;
+
+CREATE OR REPLACE PROCEDURE biblioteca_jogos.sp_renovar_assinatura(p_id_usuario integer, p_plano varchar)
+LANGUAGE plpgsql
+AS $$
+DECLARE
+    v_dias      integer;
+    v_expira    date;
+    v_id_assin  integer;
+BEGIN
+    IF NOT EXISTS (SELECT 1 FROM biblioteca_jogos.usuarios u WHERE u.id_usuario = p_id_usuario) THEN
+        RAISE EXCEPTION 'Usuário % não existe.', p_id_usuario;
+    END IF;
+
+    IF p_plano NOT IN ('gratuito', 'premium', 'premium_anual') THEN
+        RAISE EXCEPTION 'Plano inválido: %. Use gratuito, premium ou premium_anual.', p_plano;
+    END IF;
+
+    v_dias := CASE p_plano WHEN 'premium' THEN 30 WHEN 'premium_anual' THEN 365 ELSE NULL END;
+    v_expira := CASE WHEN v_dias IS NULL THEN NULL ELSE CURRENT_DATE + v_dias END;
+
+    SELECT a.id_assinatura INTO v_id_assin
+      FROM biblioteca_jogos.assinaturas a
+     WHERE a.id_usuario = p_id_usuario
+     ORDER BY a.id_assinatura DESC
+     LIMIT 1;
+
+    IF v_id_assin IS NULL THEN
+        INSERT INTO biblioteca_jogos.assinaturas (id_usuario, plano, data_inicio, data_expiracao)
+        VALUES (p_id_usuario, p_plano, CURRENT_DATE, v_expira);
+    ELSE
+        UPDATE biblioteca_jogos.assinaturas
+           SET plano = p_plano,
+               data_inicio = CURRENT_DATE,
+               data_expiracao = v_expira
+         WHERE id_assinatura = v_id_assin;
+    END IF;
+END;
+$$;
