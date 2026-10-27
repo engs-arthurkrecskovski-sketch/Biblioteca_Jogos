@@ -106,8 +106,8 @@ BEGIN
         RAISE EXCEPTION 'O jogo já está na biblioteca deste usuário.';
     END IF;
 
-    INSERT INTO biblioteca_jogos.biblioteca (id_usuario, id_jogo, horas_jogadas, data_aquisicao)
-    VALUES (p_id_usuario, p_id_jogo, 0, NOW());
+    INSERT INTO biblioteca_jogos.biblioteca (id_usuario, id_jogo)
+    VALUES (p_id_usuario, p_id_jogo);
 END;
 $$;
 
