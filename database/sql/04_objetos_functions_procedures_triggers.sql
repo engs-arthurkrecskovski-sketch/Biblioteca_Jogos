@@ -71,3 +71,20 @@ CREATE TRIGGER trg_atualiza_nota_jogo
 AFTER INSERT OR UPDATE OR DELETE ON biblioteca_jogos.avaliacoes
 FOR EACH ROW
 EXECUTE FUNCTION biblioteca_jogos.trg_fn_atualiza_nota_jogo();
+
+CREATE FUNCTION biblioteca_jogos.trg_fn_log_biblioteca()
+RETURNS trigger
+LANGUAGE plpgsql
+AS $$
+BEGIN
+    INSERT INTO biblioteca_jogos.log_biblioteca (id_usuario, id_jogo, acao)
+    VALUES (NEW.id_usuario, NEW.id_jogo, 'AQUISICAO');
+
+    RETURN NULL;
+END;
+$$;
+
+CREATE TRIGGER trg_log_biblioteca
+AFTER INSERT ON biblioteca_jogos.biblioteca
+FOR EACH ROW
+EXECUTE FUNCTION biblioteca_jogos.trg_fn_log_biblioteca();
