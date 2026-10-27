@@ -31,3 +31,43 @@ AS $$
     ORDER BY j.nota_media DESC, j.total_avaliacoes DESC, j.titulo ASC
     LIMIT p_limite;
 $$;
+
+CREATE FUNCTION biblioteca_jogos.trg_fn_atualiza_nota_jogo()
+RETURNS trigger
+LANGUAGE plpgsql
+AS $$
+DECLARE
+    v_jogo integer;
+BEGIN
+    IF TG_OP IN ('INSERT', 'UPDATE') THEN
+        v_jogo := NEW.id_jogo;
+        UPDATE biblioteca_jogos.jogos j
+           SET nota_media = (SELECT ROUND(AVG(a.nota)::numeric, 2)
+                               FROM biblioteca_jogos.avaliacoes a
+                              WHERE a.id_jogo = v_jogo),
+               total_avaliacoes = (SELECT COUNT(*)
+                                     FROM biblioteca_jogos.avaliacoes a
+                                    WHERE a.id_jogo = v_jogo)
+         WHERE j.id_jogo = v_jogo;
+    END IF;
+
+    IF TG_OP = 'DELETE' OR (TG_OP = 'UPDATE' AND OLD.id_jogo IS DISTINCT FROM NEW.id_jogo) THEN
+        v_jogo := OLD.id_jogo;
+        UPDATE biblioteca_jogos.jogos j
+           SET nota_media = (SELECT ROUND(AVG(a.nota)::numeric, 2)
+                               FROM biblioteca_jogos.avaliacoes a
+                              WHERE a.id_jogo = v_jogo),
+               total_avaliacoes = (SELECT COUNT(*)
+                                     FROM biblioteca_jogos.avaliacoes a
+                                    WHERE a.id_jogo = v_jogo)
+         WHERE j.id_jogo = v_jogo;
+    END IF;
+
+    RETURN NULL;
+END;
+$$;
+
+CREATE TRIGGER trg_atualiza_nota_jogo
+AFTER INSERT OR UPDATE OR DELETE ON biblioteca_jogos.avaliacoes
+FOR EACH ROW
+EXECUTE FUNCTION biblioteca_jogos.trg_fn_atualiza_nota_jogo();
