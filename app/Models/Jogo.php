@@ -33,3 +33,24 @@ class Jogo extends Model
     {
         return $this->belongsTo(Genero::class, 'id_genero', 'id_genero');
     }
+
+     public function desenvolvedora(): BelongsTo
+    {
+        return $this->belongsTo(Desenvolvedora::class, 'id_desenvolvedora', 'id_desenvolvedora');
+    }
+
+    public function plataformas(): BelongsToMany
+    {
+        return $this->belongsToMany(
+            Plataforma::class,
+            'biblioteca_jogos.jogos_plataformas',
+            'id_jogo',
+            'id_plataforma'
+        );
+    }
+
+    public function avaliacoes(): HasMany
+    {
+        return $this->hasMany(Avaliacao::class, 'id_jogo', 'id_jogo');
+    }
+}
