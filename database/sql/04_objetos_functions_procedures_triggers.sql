@@ -88,3 +88,25 @@ CREATE TRIGGER trg_log_biblioteca
 AFTER INSERT ON biblioteca_jogos.biblioteca
 FOR EACH ROW
 EXECUTE FUNCTION biblioteca_jogos.trg_fn_log_biblioteca();
+
+CREATE OR REPLACE PROCEDURE biblioteca_jogos.sp_adicionar_jogo_biblioteca(p_id_usuario integer, p_id_jogo integer)
+LANGUAGE plpgsql
+AS $$
+BEGIN
+    IF NOT EXISTS (SELECT 1 FROM biblioteca_jogos.usuarios u WHERE u.id_usuario = p_id_usuario) THEN
+        RAISE EXCEPTION 'Usuário % não existe.', p_id_usuario;
+    END IF;
+
+    IF NOT EXISTS (SELECT 1 FROM biblioteca_jogos.jogos j WHERE j.id_jogo = p_id_jogo) THEN
+        RAISE EXCEPTION 'Jogo % não existe.', p_id_jogo;
+    END IF;
+
+    IF EXISTS (SELECT 1 FROM biblioteca_jogos.biblioteca b
+                WHERE b.id_usuario = p_id_usuario AND b.id_jogo = p_id_jogo) THEN
+        RAISE EXCEPTION 'O jogo já está na biblioteca deste usuário.';
+    END IF;
+
+    INSERT INTO biblioteca_jogos.biblioteca (id_usuario, id_jogo, horas_jogadas, data_aquisicao)
+    VALUES (p_id_usuario, p_id_jogo, 0, NOW());
+END;
+$$;
