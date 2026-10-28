@@ -42,3 +42,16 @@ class JogoRequest extends FormRequest
             }],
         ];
     }
+
+     public function messages(): array
+    {
+        return [
+            'titulo.required' => 'O título é obrigatório.',
+            'titulo.max' => 'O título pode ter no máximo 150 caracteres.',
+            'preco.required' => 'O preço é obrigatório.',
+            'preco.numeric' => 'O preço deve ser um número.',
+            'preco.min' => 'O preço não pode ser negativo.',
+            'data_lancamento.date' => 'A data de lançamento é inválida.',
+        ];
+    }
+}
