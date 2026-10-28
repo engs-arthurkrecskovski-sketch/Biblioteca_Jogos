@@ -25,3 +25,40 @@ class JogoService
             ->paginate($porPagina)
             ->withQueryString();
     }
+
+     public function criar(array $dados): Jogo
+    {
+        return DB::transaction(function () use ($dados) {
+            $plataformas = Arr::pull($dados, 'plataformas');
+
+            $jogo = Jogo::create($dados);
+
+            if (is_array($plataformas)) {
+                $jogo->plataformas()->sync($plataformas);
+            }
+
+            // refresh traz os valores padrao do banco (total_avaliacoes, nota_media)
+            return $jogo->refresh()->load(['genero', 'desenvolvedora', 'plataformas']);
+        });
+    }
+
+    public function atualizar(Jogo $jogo, array $dados): Jogo
+    {
+        return DB::transaction(function () use ($jogo, $dados) {
+            $plataformas = Arr::pull($dados, 'plataformas');
+
+            $jogo->update($dados);
+
+            if (is_array($plataformas)) {
+                $jogo->plataformas()->sync($plataformas);
+            }
+
+            return $jogo->refresh()->load(['genero', 'desenvolvedora', 'plataformas']);
+        });
+    }
+
+    public function excluir(Jogo $jogo): void
+    {
+        $jogo->delete();
+    }
+}
