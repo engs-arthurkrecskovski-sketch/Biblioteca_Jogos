@@ -9,7 +9,7 @@ use Illuminate\Support\Facades\DB;
 
 class JogoService
 {
-    /** Lista jogos com busca por titulo e filtro por genero. */
+   
     public function listar(array $filtros = [], int $porPagina = 15): LengthAwarePaginator
     {
         return Jogo::query()
@@ -37,7 +37,7 @@ class JogoService
                 $jogo->plataformas()->sync($plataformas);
             }
 
-            // refresh traz os valores padrao do banco (total_avaliacoes, nota_media)
+          
             return $jogo->refresh()->load(['genero', 'desenvolvedora', 'plataformas']);
         });
     }
