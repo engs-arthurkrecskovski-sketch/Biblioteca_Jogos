@@ -30,3 +30,12 @@ class JogoController extends Controller
             'desenvolvedoras' => Desenvolvedora::orderBy('nome')->get(),
         ]);
     }
+
+
+    public function store(JogoRequest $request)
+    {
+        $jogo = $this->service->criar($request->validated());
+
+        return redirect()->route('jogos.show', $jogo)
+            ->with('sucesso', 'Jogo cadastrado com sucesso.');
+    }
