@@ -17,3 +17,24 @@
         </div>
     </div>
 </nav>
+
+
+<main class="container py-4">
+    @if (session('sucesso'))
+        <div class="alert alert-success">{{ session('sucesso') }}</div>
+    @endif
+
+    @if ($errors->any())
+        <div class="alert alert-danger">
+            <ul class="mb-0">
+                @foreach ($errors->all() as $erro)
+                    <li>{{ $erro }}</li>
+                @endforeach
+            </ul>
+        </div>
+    @endif
+
+    @yield('conteudo')
+</main>
+</body>
+</html>
