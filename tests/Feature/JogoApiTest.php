@@ -73,3 +73,20 @@ public function test_post_jogos_invalido_retorna_422(): void
             ->assertJsonStructure(['id_usuario', 'total_horas'])
             ->assertJsonPath('total_horas', 0);
     }
+    
+    public function test_post_biblioteca_chama_procedure_e_trigger_grava_log(): void
+    {
+        $usuario = Usuario::create(['nome' => 'Teste Biblioteca', 'email' => uniqid() . '@teste.dev', 'senha_hash' => 'x']);
+        $jogo = Jogo::create(['titulo' => 'Jogo Biblioteca ' . uniqid(), 'preco' => 10]);
+
+        $this->postJson('/api/usuarios/' . $usuario->id_usuario . '/biblioteca', ['id_jogo' => $jogo->id_jogo])
+            ->assertCreated()
+            ->assertJsonPath('id_jogo', $jogo->id_jogo);
+
+        $this->assertTrue(
+            LogBiblioteca::where('id_usuario', $usuario->id_usuario)
+                ->where('id_jogo', $jogo->id_jogo)
+                ->where('acao', 'AQUISICAO')
+                ->exists()
+        );
+    }
