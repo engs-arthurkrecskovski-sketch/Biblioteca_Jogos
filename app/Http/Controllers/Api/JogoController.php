@@ -23,7 +23,7 @@ class JogoController extends Controller
             $this->service->listar($request->only(['busca', 'genero']), $porPagina)
         );
     }
-}
+
     public function show(Jogo $jogo)
     {
         return new JogoResource($jogo->load(['genero', 'desenvolvedora', 'plataformas']));
@@ -35,6 +35,7 @@ class JogoController extends Controller
 
         return (new JogoResource($jogo))->response()->setStatusCode(201);
     }
+
     public function update(JogoRequest $request, Jogo $jogo)
     {
         $jogo = $this->service->atualizar($jogo, $request->validated());
@@ -48,3 +49,4 @@ class JogoController extends Controller
 
         return response()->noContent();
     }
+}
