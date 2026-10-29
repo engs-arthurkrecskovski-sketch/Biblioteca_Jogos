@@ -40,3 +40,10 @@ $resposta->assertJsonPath('data.titulo', $dados['titulo']);
 $this->assertTrue(Jogo::where('titulo', $dados['titulo'])->exists());   
     }
 }
+public function test_post_jogos_invalido_retorna_422(): void
+    {
+        $resposta = $this->postJson('/api/jogos', ['titulo' => '']);
+
+        $resposta->assertStatus(422);
+        $resposta->assertJsonValidationErrors(['titulo', 'preco']);
+    }
