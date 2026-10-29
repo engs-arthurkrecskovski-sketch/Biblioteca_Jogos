@@ -22,10 +22,21 @@ private function dadosJogo(array $extra = []): array
         'id_desenvolvedora' => Desenvolvedora::query()->value('id_desenvolvedora'),
     ], $extra);
 }
+public function test_get_jogos_retorna_200_e_estrutura_json(): void
+    {
 
 $resposta = $this->getJson('/api/jogos?per_page=5');
 
 $resposta->assertOk();
 $resposta->assertJsonStructure([...]);
 $this->assertLessThanOrEqual(5, count($resposta->json('data')));
+
+$dados = $this->dadosJogo();
+$resposta = $this->postJson('/api/jogos', $dados);
+
+$resposta->assertCreated();
+$resposta->assertJsonStructure(['data' => [...]]);
+$resposta->assertJsonPath('data.titulo', $dados['titulo']);
+$this->assertTrue(Jogo::where('titulo', $dados['titulo'])->exists());   
     }
+}
