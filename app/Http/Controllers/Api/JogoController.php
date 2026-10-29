@@ -15,7 +15,6 @@ class JogoController extends Controller
     {
     }
 
-    // GET /api/jogos?busca=&genero=&per_page=
     public function index(Request $request)
     {
         $porPagina = min(max((int) $request->query('per_page', 15), 1), 100);
@@ -25,3 +24,14 @@ class JogoController extends Controller
         );
     }
 }
+    public function show(Jogo $jogo)
+    {
+        return new JogoResource($jogo->load(['genero', 'desenvolvedora', 'plataformas']));
+    }
+
+    public function store(JogoRequest $request)
+    {
+        $jogo = $this->service->criar($request->validated());
+
+        return (new JogoResource($jogo))->response()->setStatusCode(201);
+    }
