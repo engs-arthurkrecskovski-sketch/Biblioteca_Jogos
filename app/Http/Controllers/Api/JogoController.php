@@ -35,3 +35,16 @@ class JogoController extends Controller
 
         return (new JogoResource($jogo))->response()->setStatusCode(201);
     }
+    public function update(JogoRequest $request, Jogo $jogo)
+    {
+        $jogo = $this->service->atualizar($jogo, $request->validated());
+
+        return new JogoResource($jogo);
+    }
+
+    public function destroy(Jogo $jogo)
+    {
+        $this->service->excluir($jogo);
+
+        return response()->noContent();
+    }
