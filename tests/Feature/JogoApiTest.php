@@ -51,3 +51,16 @@ public function test_post_jogos_invalido_retorna_422(): void
     {
         $this->getJson('/api/jogos/999999999')->assertNotFound();
     }
+    public function test_put_atualiza_e_delete_remove_o_jogo(): void
+    {
+        $jogo = Jogo::create(['titulo' => 'Jogo Antigo ' . uniqid(), 'preco' => 20]);
+        $novoTitulo = 'Jogo Atualizado ' . uniqid();
+
+        $this->putJson('/api/jogos/' . $jogo->id_jogo, $this->dadosJogo(['titulo' => $novoTitulo]))
+            ->assertOk()
+            ->assertJsonPath('data.titulo', $novoTitulo);
+
+        $this->deleteJson('/api/jogos/' . $jogo->id_jogo)->assertNoContent();
+
+        $this->assertNull(Jogo::find($jogo->id_jogo));
+    }
