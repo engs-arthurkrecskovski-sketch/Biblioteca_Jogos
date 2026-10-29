@@ -64,3 +64,12 @@ public function test_post_jogos_invalido_retorna_422(): void
 
         $this->assertNull(Jogo::find($jogo->id_jogo));
     }
+    public function test_get_horas_do_usuario_usa_a_function_do_banco(): void
+    {
+        $usuario = Usuario::create(['nome' => 'Teste Horas', 'email' => uniqid() . '@teste.dev', 'senha_hash' => 'x']);
+
+        $this->getJson('/api/usuarios/' . $usuario->id_usuario . '/horas')
+            ->assertOk()
+            ->assertJsonStructure(['id_usuario', 'total_horas'])
+            ->assertJsonPath('total_horas', 0);
+    }
