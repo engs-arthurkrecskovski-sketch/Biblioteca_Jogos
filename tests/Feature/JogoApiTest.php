@@ -10,7 +10,7 @@ use Tests\TestCase;
 class JogoApiTest extends TestCase
 {
     use DatabaseTransactions;
-    
+
 private function dadosJogo(array $extra = []): array
 {
     return array_merge([
@@ -23,4 +23,9 @@ private function dadosJogo(array $extra = []): array
     ], $extra);
 }
 
+$resposta = $this->getJson('/api/jogos?per_page=5');
+
+$resposta->assertOk();
+$resposta->assertJsonStructure([...]);
+$this->assertLessThanOrEqual(5, count($resposta->json('data')));
     }
