@@ -32,7 +32,7 @@ class JogoResource extends JsonResource
             'plataformas' => $this->whenLoaded('plataformas', function () {
                 return $this->plataformas->map(function ($p) {
                     return ['id_plataforma' => $p->id_plataforma, 'nome' => $p->nome];
-                })->values();jogo 
+                })->values();
             }),
         ];
     }
