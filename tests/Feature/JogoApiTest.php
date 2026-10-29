@@ -47,3 +47,7 @@ public function test_post_jogos_invalido_retorna_422(): void
         $resposta->assertStatus(422);
         $resposta->assertJsonValidationErrors(['titulo', 'preco']);
     }
+    public function test_get_jogo_inexistente_retorna_404(): void
+    {
+        $this->getJson('/api/jogos/999999999')->assertNotFound();
+    }
