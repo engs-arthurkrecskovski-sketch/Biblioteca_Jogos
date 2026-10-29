@@ -22,6 +22,18 @@ class JogoResource extends JsonResource
                     'id_genero' => $this->genero->id_genero,
                     'nome' => $this->genero->nome,
                 ] : null;
-            }),]
+            }),
+            'desenvolvedora' => $this->whenLoaded('desenvolvedora', function () {
+                return $this->desenvolvedora ? [
+                    'id_desenvolvedora' => $this->desenvolvedora->id_desenvolvedora,
+                    'nome' => $this->desenvolvedora->nome,
+                ] : null;
+            }),
+            'plataformas' => $this->whenLoaded('plataformas', function () {
+                return $this->plataformas->map(function ($p) {
+                    return ['id_plataforma' => $p->id_plataforma, 'nome' => $p->nome];
+                })->values();jogo 
+            }),
+        ];
     }
 }
