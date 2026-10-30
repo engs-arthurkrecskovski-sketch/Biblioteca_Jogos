@@ -21,9 +21,8 @@
 
     {{-- Sidebar --}}
     <aside class="sidebar" id="sidebar">
-        <a href="{{ route('home') }}" class="brand">
-            <span class="brand-icon"><i class="bi bi-controller"></i></span>
-            <span class="brand-name">Save Point<small>Painel Administrativo</small></span>
+        <a href="{{ route('home') }}" class="logo-link">
+            <img src="{{ asset('img/logo-save-point.png') }}" alt="Save Point - Painel Administrativo" class="logo-img">
         </a>
 
         <div class="side-label">Menu</div>

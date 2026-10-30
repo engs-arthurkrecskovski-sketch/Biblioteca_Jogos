@@ -339,3 +339,16 @@ a:focus-visible, button:focus-visible { outline: 3px solid var(--amber); outline
 @media (max-width: 991.98px) {
   .hero::before { background: linear-gradient(180deg, rgba(10,20,28,.9), rgba(10,20,28,.7)); }
 }
+
+.logo-link {
+    display: block;
+    padding: 1.25rem 1rem 0.5rem;
+    text-align: center;
+}
+
+.logo-img {
+    width: 100%;
+    max-width: 130px;
+    height: auto;
+    display: inline-block;
+}
