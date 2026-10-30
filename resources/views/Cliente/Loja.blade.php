@@ -17,20 +17,24 @@
 
     <div class="row g-3">
         @forelse ($jogos as $jogo)
+            @php $pago = ($jogo->preco ?? 0) > 0; @endphp
+
             <div class="col-md-6 col-xl-4">
                 <div class="card h-100">
                     <div class="card-body">
                         <h5 class="card-title">{{ $jogo->titulo }}</h5>
-                        <p class="text-muted mb-2">{{ $jogo->genero ?? '' }}</p>
-                        @if (isset($jogo->preco))
-                            <strong>R$ {{ number_format($jogo->preco, 2, ',', '.') }}</strong>
-                        @endif
+                        <p class="text-muted mb-2">{{ $jogo->genero->nome ?? '' }}</p>
+                        <strong>{{ $pago ? 'R$ ' . number_format($jogo->preco, 2, ',', '.') : 'Grátis' }}</strong>
                     </div>
                     <div class="card-footer bg-transparent border-0">
                         <form method="POST" action="{{ route('cliente.comprar', $jogo->id_jogo) }}">
                             @csrf
                             <button type="submit" class="btn btn-sm btn-accent w-100">
-                                <i class="bi bi-bag-plus me-1"></i> Adicionar à biblioteca
+                                @if ($pago)
+                                    <i class="bi bi-cart-check me-1"></i> Comprar
+                                @else
+                                    <i class="bi bi-bag-plus me-1"></i> Adicionar à biblioteca
+                                @endif
                             </button>
                         </form>
                     </div>

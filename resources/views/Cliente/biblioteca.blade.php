@@ -12,7 +12,7 @@
                 <div class="card h-100">
                     <div class="card-body">
                         <h5 class="card-title">{{ $item->jogo->titulo }}</h5>
-                        <p class="text-muted mb-2">{{ $item->jogo->genero ?? '' }}</p>
+                       <p class="text-muted mb-2">{{ $item->jogo->genero->nome ?? '' }}</p>
                         <p class="mb-0">
                             <i class="bi bi-clock-history me-1"></i>
                             {{ number_format($item->horas_jogadas ?? 0, 0, ',', '.') }} h jogadas

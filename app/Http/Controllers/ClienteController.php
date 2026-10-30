@@ -32,7 +32,7 @@ class ClienteController extends Controller
     {
         $itens = $this->usuario()
             ->biblioteca()
-            ->with('jogo')
+            ->with('jogo.genero')
             ->paginate(12);
 
         return view('cliente.biblioteca', compact('itens'));
@@ -42,7 +42,8 @@ class ClienteController extends Controller
     {
         $meus = $this->usuario()->biblioteca()->pluck('id_jogo');
 
-        $jogos = Jogo::whereNotIn('id_jogo', $meus)
+        $jogos = Jogo::with('genero')
+            ->whereNotIn('id_jogo', $meus)
             ->when($request->q, fn ($q, $busca) => $q->where('titulo', 'like', "%{$busca}%"))
             ->orderBy('titulo')
             ->paginate(12)
@@ -58,8 +59,11 @@ class ClienteController extends Controller
             'id_jogo'    => $jogo->id_jogo,
         ]);
 
-        return redirect()->route('cliente.biblioteca')
-            ->with('success', "{$jogo->titulo} foi adicionado à sua biblioteca.");
+        $mensagem = ($jogo->preco ?? 0) > 0
+            ? "{$jogo->titulo} foi comprado e já está na sua biblioteca."
+            : "{$jogo->titulo} foi adicionado à sua biblioteca.";
+
+        return redirect()->route('cliente.biblioteca')->with('success', $mensagem);
     }
 
     public function avaliar()
