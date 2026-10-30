@@ -2,7 +2,7 @@
 :root {
   --ink: #12222c;         
   --ink-2: #1c3340;        
-  --ink-text: #a9bcc8;    
+  --ink-text: #a9bcc8;     
   --accent: #ff8a4c;       
   --accent-deep: #d9571d;
   --amber: #f5b301;        
@@ -232,6 +232,7 @@ a:focus-visible, button:focus-visible { outline: 3px solid var(--amber); outline
 .empty i { font-size: 2rem; display: block; margin-bottom: .5rem; }
 .pager { margin-top: 1.25rem; }
 
+
 .page-head { align-items: center; }
 
 .content a.game-title:not(.btn):not(.page-link) { color: var(--text); font-weight: 600; }
@@ -244,3 +245,36 @@ a:focus-visible, button:focus-visible { outline: 3px solid var(--amber); outline
 
 .table thead th { border-bottom: 1px solid var(--line); }
 .genre { background: #e6ebf0; }
+
+
+.stat {
+  --stat-c: var(--accent);
+  --stat-soft: rgba(255, 138, 76, .18);
+  padding: 1.1rem 1rem;
+  gap: .85rem;
+  border: 1.5px solid var(--line);
+  transition: transform .22s ease, box-shadow .22s ease, border-color .22s ease;
+}
+.stat-icon { width: 48px; height: 48px; transition: transform .22s ease; }
+.stat-teal  { --stat-c: #14b8a6; --stat-soft: rgba(20, 184, 166, .18); }
+.stat-blue  { --stat-c: #3b6fe0; --stat-soft: rgba(59, 111, 224, .16); }
+.stat-amber { --stat-c: #f5a800; --stat-soft: rgba(245, 168, 0, .22); }
+.stat-rose  { --stat-c: #f0476a; --stat-soft: rgba(240, 71, 106, .16); }
+
+.stat:hover {
+  transform: translateY(-6px);
+  border-color: var(--stat-c);
+  box-shadow: 0 0 0 4px var(--stat-soft), 0 18px 30px -14px rgba(18, 34, 44, .35);
+}
+.stat:hover .stat-icon { transform: scale(1.1) rotate(-5deg); }
+
+.content a.shortcut:not(.btn):not(.page-link) { color: var(--text); font-weight: 400; }
+.content a.shortcut:not(.btn):not(.page-link):hover { color: var(--text); }
+.shortcut { border: 1.5px solid var(--line); transition: transform .22s ease, box-shadow .22s ease, border-color .22s ease; }
+.shortcut:hover {
+  transform: translateY(-6px);
+  border-color: var(--accent);
+  box-shadow: 0 0 0 4px rgba(255, 138, 76, .16), 0 18px 30px -14px rgba(18, 34, 44, .35);
+}
+.shortcut h3 { transition: color .2s ease; }
+.shortcut:hover h3 { color: var(--accent-deep); }

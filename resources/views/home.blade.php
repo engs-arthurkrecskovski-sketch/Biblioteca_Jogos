@@ -16,7 +16,7 @@
     {{-- Ajuste os nomes das variáveis para os que o seu controller envia --}}
     <div class="row g-3">
         <div class="col-6 col-xl-3">
-            <div class="stat">
+            <div class="stat stat-teal">
                 <div class="stat-icon tone-teal"><i class="bi bi-joystick"></i></div>
                 <div>
                     <div class="stat-value">{{ number_format($totalJogos ?? 0, 0, ',', '.') }}</div>
@@ -25,7 +25,7 @@
             </div>
         </div>
         <div class="col-6 col-xl-3">
-            <div class="stat">
+            <div class="stat stat-blue">
                 <div class="stat-icon tone-blue"><i class="bi bi-people"></i></div>
                 <div>
                     <div class="stat-value">{{ number_format($totalUsuarios ?? 0, 0, ',', '.') }}</div>
@@ -34,7 +34,7 @@
             </div>
         </div>
         <div class="col-6 col-xl-3">
-            <div class="stat">
+            <div class="stat stat-amber">
                 <div class="stat-icon tone-amber"><i class="bi bi-star-fill"></i></div>
                 <div>
                     <div class="stat-value">{{ number_format($totalAvaliacoes ?? 0, 0, ',', '.') }}</div>
@@ -43,7 +43,7 @@
             </div>
         </div>
         <div class="col-6 col-xl-3">
-            <div class="stat">
+            <div class="stat stat-rose">
                 <div class="stat-icon tone-rose"><i class="bi bi-collection-play"></i></div>
                 <div>
                     <div class="stat-value">{{ number_format($totalBiblioteca ?? 0, 0, ',', '.') }}</div>
