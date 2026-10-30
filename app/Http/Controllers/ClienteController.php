@@ -23,6 +23,31 @@ class ClienteController extends Controller
         return $this->usuario()->biblioteca()->where('id_jogo', $jogo->id_jogo)->exists();
     }
 
+    /**
+     * Jogos que estão no carrinho (guardado na sessão).
+     * Remove sozinho o que já está na biblioteca ou deixou de ser pago.
+     */
+    private function itensCarrinho()
+    {
+        $ids = session('carrinho', []);
+
+        if (empty($ids)) {
+            return collect();
+        }
+
+        $meus = $this->usuario()->biblioteca()->pluck('id_jogo');
+
+        $jogos = Jogo::with('genero')
+            ->whereIn('id_jogo', $ids)
+            ->whereNotIn('id_jogo', $meus)
+            ->where('preco', '>', 0)
+            ->get();
+
+        session(['carrinho' => $jogos->pluck('id_jogo')->all()]);
+
+        return $jogos;
+    }
+
     public function inicio()
     {
         $usuario = $this->usuario()->load('assinatura');
@@ -81,10 +106,14 @@ class ClienteController extends Controller
         ));
     }
 
+    /**
+     * Jogo grátis vai direto pra biblioteca.
+     * Jogo pago vai pro carrinho.
+     */
     public function comprar(Jogo $jogo): RedirectResponse
     {
         if (($jogo->preco ?? 0) > 0) {
-            return redirect()->route('cliente.checkout', $jogo->id_jogo);
+            return $this->adicionarCarrinho($jogo);
         }
 
         BibliotecaItem::firstOrCreate(
@@ -102,7 +131,19 @@ class ClienteController extends Controller
             ->with('success', "{$jogo->titulo} foi adicionado à sua biblioteca.");
     }
 
-    public function checkout(Jogo $jogo)
+    public function carrinho()
+    {
+        $itens = $this->itensCarrinho();
+        $total = $itens->sum('preco');
+
+        $pixCodigo = '00020126580014BR.GOV.BCB.PIX0136' . Str::uuid()
+            . '5204000053039865406' . number_format($total, 2, '', '')
+            . '5802BR5909SAVEPOINT6009SAO PAULO6304ABCD';
+
+        return view('cliente.carrinho', compact('itens', 'total', 'pixCodigo'));
+    }
+
+    public function adicionarCarrinho(Jogo $jogo): RedirectResponse
     {
         if ($this->jogoJaNaBiblioteca($jogo)) {
             return redirect()->route('cliente.biblioteca')
@@ -113,19 +154,33 @@ class ClienteController extends Controller
             return redirect()->route('cliente.loja');
         }
 
-        $jogo->load('genero');
+        $carrinho = session('carrinho', []);
 
-        $pixCodigo = '00020126580014BR.GOV.BCB.PIX0136' . Str::uuid()
-            . '5204000053039865406' . number_format($jogo->preco, 2, '', '')
-            . '5802BR5909SAVEPOINT6009SAO PAULO6304ABCD';
+        if (in_array($jogo->id_jogo, $carrinho)) {
+            return back()->with('success', "{$jogo->titulo} já está no seu carrinho.");
+        }
 
-        return view('cliente.checkout', compact('jogo', 'pixCodigo'));
+        $carrinho[] = $jogo->id_jogo;
+        session(['carrinho' => $carrinho]);
+
+        return back()->with('success', "{$jogo->titulo} foi adicionado ao carrinho.");
     }
 
-    public function pagar(Request $request, Jogo $jogo): RedirectResponse
+    public function removerCarrinho(Jogo $jogo): RedirectResponse
     {
-        if (($jogo->preco ?? 0) <= 0) {
-            return redirect()->route('cliente.loja');
+        $carrinho = array_values(array_diff(session('carrinho', []), [$jogo->id_jogo]));
+        session(['carrinho' => $carrinho]);
+
+        return redirect()->route('cliente.carrinho')
+            ->with('success', "{$jogo->titulo} foi removido do carrinho.");
+    }
+
+    public function pagarCarrinho(Request $request): RedirectResponse
+    {
+        $itens = $this->itensCarrinho();
+
+        if ($itens->isEmpty()) {
+            return redirect()->route('cliente.carrinho');
         }
 
         if ($request->filled('numero_cartao')) {
@@ -151,19 +206,26 @@ class ClienteController extends Controller
             'cvv.digits_between'           => 'O CVV deve ter 3 ou 4 dígitos.',
         ]);
 
-        BibliotecaItem::firstOrCreate(
-            [
-                'id_usuario' => $this->usuario()->id_usuario,
-                'id_jogo'    => $jogo->id_jogo,
-            ],
-            [
-                'horas_jogadas'  => 0,
-                'data_aquisicao' => now(),
-            ]
-        );
+        foreach ($itens as $jogo) {
+            BibliotecaItem::firstOrCreate(
+                [
+                    'id_usuario' => $this->usuario()->id_usuario,
+                    'id_jogo'    => $jogo->id_jogo,
+                ],
+                [
+                    'horas_jogadas'  => 0,
+                    'data_aquisicao' => now(),
+                ]
+            );
+        }
 
-        return redirect()->route('cliente.biblioteca')
-            ->with('success', "Pagamento confirmado! {$jogo->titulo} já está na sua biblioteca.");
+        session()->forget('carrinho');
+
+        $mensagem = $itens->count() === 1
+            ? "Pagamento confirmado! {$itens->first()->titulo} já está na sua biblioteca."
+            : "Pagamento confirmado! {$itens->count()} jogos já estão na sua biblioteca.";
+
+        return redirect()->route('cliente.biblioteca')->with('success', $mensagem);
     }
 
     public function avaliar()

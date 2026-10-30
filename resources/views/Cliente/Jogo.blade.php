@@ -6,6 +6,7 @@
 
     @php
         $pago = ($jogo->preco ?? 0) > 0;
+        $noCarrinho = in_array($jogo->id_jogo, session('carrinho', []));
 
         // Desenvolvedora: aceita coluna de texto ou relação com "nome"
         $dev = $jogo->desenvolvedora ?? null;
@@ -75,10 +76,18 @@
                             <i class="bi bi-star me-1"></i> Avaliar este jogo
                         </a>
                         <small class="text-muted mt-2">Este jogo já está na sua biblioteca.</small>
-                    @elseif ($pago)
-                        <a href="{{ route('cliente.checkout', $jogo->id_jogo) }}" class="btn btn-accent">
-                            <i class="bi bi-cart-check me-1"></i> Comprar
+                    @elseif ($pago && $noCarrinho)
+                        <a href="{{ route('cliente.carrinho') }}" class="btn btn-accent">
+                            <i class="bi bi-cart-check me-1"></i> Ver carrinho
                         </a>
+                        <small class="text-muted mt-2">Este jogo já está no seu carrinho.</small>
+                    @elseif ($pago)
+                        <form method="POST" action="{{ route('cliente.carrinho.adicionar', $jogo->id_jogo) }}">
+                            @csrf
+                            <button type="submit" class="btn btn-accent w-100">
+                                <i class="bi bi-cart-plus me-1"></i> Adicionar ao carrinho
+                            </button>
+                        </form>
                     @else
                         <form method="POST" action="{{ route('cliente.comprar', $jogo->id_jogo) }}">
                             @csrf

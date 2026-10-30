@@ -45,8 +45,10 @@ Route::middleware('auth:web')->prefix('cliente')->name('cliente.')->group(functi
 
     Route::post('/loja/{jogo}/comprar', [ClienteController::class, 'comprar'])->name('comprar');
 
-    Route::get('/loja/{jogo}/checkout', [ClienteController::class, 'checkout'])->name('checkout');
-    Route::post('/loja/{jogo}/pagar', [ClienteController::class, 'pagar'])->name('pagar');
+    Route::get('/carrinho', [ClienteController::class, 'carrinho'])->name('carrinho');
+    Route::post('/carrinho/adicionar/{jogo}', [ClienteController::class, 'adicionarCarrinho'])->name('carrinho.adicionar');
+    Route::post('/carrinho/remover/{jogo}', [ClienteController::class, 'removerCarrinho'])->name('carrinho.remover');
+    Route::post('/carrinho/pagar', [ClienteController::class, 'pagarCarrinho'])->name('carrinho.pagar');
 
     Route::get('/avaliar', [ClienteController::class, 'avaliar'])->name('avaliar');
     Route::post('/avaliar/{jogo}', [ClienteController::class, 'salvarAvaliacao'])->name('avaliar.salvar');

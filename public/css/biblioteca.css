@@ -352,3 +352,52 @@ a:focus-visible, button:focus-visible { outline: 3px solid var(--amber); outline
     height: auto;
     display: inline-block;
 }
+
+.cart-bar {
+    display: flex;
+    justify-content: flex-end;
+    padding: 1rem 2rem 0;
+}
+
+.cart-btn {
+    position: relative;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 44px;
+    height: 44px;
+    border-radius: 12px;
+    background: #fff;
+    color: #1b2733;
+    font-size: 1.25rem;
+    text-decoration: none;
+    box-shadow: 0 1px 3px rgba(0, 0, 0, .12);
+}
+
+.cart-btn:hover {
+    background: #ff8a4c;
+    color: #fff;
+}
+
+.cart-badge {
+    position: absolute;
+    top: -6px;
+    right: -6px;
+    min-width: 20px;
+    height: 20px;
+    padding: 0 5px;
+    border-radius: 10px;
+    background: #e11d48;
+    color: #fff;
+    font-size: .75rem;
+    font-weight: 700;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.btn-ghost-dark {
+    border: 1px solid #cbd5e1;
+    background: transparent;
+    color: #1b2733;
+}

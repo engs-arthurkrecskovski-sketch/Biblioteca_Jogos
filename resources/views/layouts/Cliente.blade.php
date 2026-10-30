@@ -12,15 +12,16 @@
 </head>
 <body>
 
+    @php $qtdCarrinho = count(session('carrinho', [])); @endphp
+
     <div class="topbar-mobile">
         <button type="button" id="menuToggle" aria-label="Abrir menu"><i class="bi bi-list"></i></button>
         <strong class="brand-name">Save Point</strong>
     </div>
 
     <aside class="sidebar" id="sidebar">
-        <a href="{{ route('cliente.inicio') }}" class="brand">
-            <span class="brand-icon"><i class="bi bi-controller"></i></span>
-            <span class="brand-name">Save Point<small>Minha conta</small></span>
+        <a href="{{ route('cliente.inicio') }}" class="logo-link">
+            <img src="{{ asset('img/logo-save-point.png') }}" alt="Save Point - Minha conta" class="logo-img">
         </a>
 
         <div class="side-label">Menu</div>
@@ -58,6 +59,16 @@
     </aside>
 
     <div class="main">
+        {{-- Carrinho no canto superior direito --}}
+        <div class="cart-bar">
+            <a href="{{ route('cliente.carrinho') }}" class="cart-btn" aria-label="Carrinho" title="Carrinho">
+                <i class="bi bi-cart3"></i>
+                @if ($qtdCarrinho > 0)
+                    <span class="cart-badge">{{ $qtdCarrinho }}</span>
+                @endif
+            </a>
+        </div>
+
         <main class="content">
             @if (session('success'))
                 <div class="alert alert-success alert-dismissible fade show" role="alert">

@@ -15,24 +15,36 @@
         </div>
     </form>
 
+    @php $carrinhoIds = session('carrinho', []); @endphp
+
     <div class="row g-3">
         @forelse ($jogos as $jogo)
-            @php $pago = ($jogo->preco ?? 0) > 0; @endphp
+            @php
+                $pago = ($jogo->preco ?? 0) > 0;
+                $noCarrinho = in_array($jogo->id_jogo, $carrinhoIds);
+            @endphp
 
             <div class="col-md-6 col-xl-4">
                 <div class="card card-jogo h-100">
                     <div class="card-body">
                         <h5 class="card-title">
-    <a href="{{ route('cliente.jogo', $jogo->id_jogo) }}" class="titulo-jogo">{{ $jogo->titulo }}</a>
-</h5>
+                            <a href="{{ route('cliente.jogo', $jogo->id_jogo) }}" class="titulo-jogo">{{ $jogo->titulo }}</a>
+                        </h5>
                         <p class="text-muted mb-2">{{ $jogo->genero->nome ?? '' }}</p>
                         <strong>{{ $pago ? 'R$ ' . number_format($jogo->preco, 2, ',', '.') : 'Grátis' }}</strong>
                     </div>
                     <div class="card-footer bg-transparent border-0">
-                        @if ($pago)
-                            <a href="{{ route('cliente.checkout', $jogo->id_jogo) }}" class="btn btn-sm btn-accent w-100">
-                                <i class="bi bi-cart-check me-1"></i> Comprar
+                        @if ($pago && $noCarrinho)
+                            <a href="{{ route('cliente.carrinho') }}" class="btn btn-sm btn-ghost-dark w-100">
+                                <i class="bi bi-cart-check me-1"></i> No carrinho · Ver carrinho
                             </a>
+                        @elseif ($pago)
+                            <form method="POST" action="{{ route('cliente.carrinho.adicionar', $jogo->id_jogo) }}">
+                                @csrf
+                                <button type="submit" class="btn btn-sm btn-accent w-100">
+                                    <i class="bi bi-cart-plus me-1"></i> Adicionar ao carrinho
+                                </button>
+                            </form>
                         @else
                             <form method="POST" action="{{ route('cliente.comprar', $jogo->id_jogo) }}">
                                 @csrf
