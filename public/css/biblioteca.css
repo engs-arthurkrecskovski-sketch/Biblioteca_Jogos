@@ -314,3 +314,11 @@ a:focus-visible, button:focus-visible { outline: 3px solid var(--amber); outline
     .card-jogo { transition: none; }
     .card-jogo:hover { transform: none; }
 }
+
+.titulo-jogo {
+    color: inherit;
+    text-decoration: none;
+}
+.titulo-jogo:hover {
+    color: #fb8c4b;
+}

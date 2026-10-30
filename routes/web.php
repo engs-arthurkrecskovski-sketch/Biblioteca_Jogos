@@ -41,6 +41,7 @@ Route::middleware('auth:web')->prefix('cliente')->name('cliente.')->group(functi
     Route::get('/', [ClienteController::class, 'inicio'])->name('inicio');
     Route::get('/biblioteca', [ClienteController::class, 'biblioteca'])->name('biblioteca');
     Route::get('/loja', [ClienteController::class, 'loja'])->name('loja');
+    Route::get('/loja/{jogo}', [ClienteController::class, 'jogo'])->name('jogo');
 
     Route::post('/loja/{jogo}/comprar', [ClienteController::class, 'comprar'])->name('comprar');
 

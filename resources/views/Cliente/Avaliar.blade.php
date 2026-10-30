@@ -12,7 +12,7 @@
         <div class="card card-jogo mb-3">
             <div class="card-body">
                 <h5 class="card-title mb-3">
-                    {{ $item->jogo->titulo }}
+                    <a href="{{ route('cliente.jogo', $item->id_jogo) }}" class="titulo-jogo">{{ $item->jogo->titulo }}</a>
                     @if ($minha)
                         <span class="badge text-bg-success ms-2">Avaliado</span>
                     @endif

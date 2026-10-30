@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\Avaliacao;
 use App\Models\BibliotecaItem;
 use App\Models\Jogo;
+use App\Models\Usuario;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
@@ -58,16 +59,44 @@ class ClienteController extends Controller
         return view('cliente.loja', compact('jogos'));
     }
 
+
+    public function jogo(Jogo $jogo)
+    {
+        $jogo->load('genero');
+
+        $naBiblioteca = $this->jogoJaNaBiblioteca($jogo);
+
+        $notaMedia = Avaliacao::where('id_jogo', $jogo->id_jogo)->avg('nota');
+        $totalAvaliacoes = Avaliacao::where('id_jogo', $jogo->id_jogo)->count();
+
+        $avaliacoes = Avaliacao::where('id_jogo', $jogo->id_jogo)
+            ->limit(10)
+            ->get();
+
+        $nomes = Usuario::whereIn('id_usuario', $avaliacoes->pluck('id_usuario'))
+            ->pluck('nome', 'id_usuario');
+
+        return view('cliente.jogo', compact(
+            'jogo', 'naBiblioteca', 'notaMedia', 'totalAvaliacoes', 'avaliacoes', 'nomes'
+        ));
+    }
+
     public function comprar(Jogo $jogo): RedirectResponse
     {
         if (($jogo->preco ?? 0) > 0) {
             return redirect()->route('cliente.checkout', $jogo->id_jogo);
         }
 
-        BibliotecaItem::firstOrCreate([
-            'id_usuario' => $this->usuario()->id_usuario,
-            'id_jogo'    => $jogo->id_jogo,
-        ]);
+        BibliotecaItem::firstOrCreate(
+            [
+                'id_usuario' => $this->usuario()->id_usuario,
+                'id_jogo'    => $jogo->id_jogo,
+            ],
+            [
+                'horas_jogadas'  => 0,
+                'data_aquisicao' => now(),
+            ]
+        );
 
         return redirect()->route('cliente.biblioteca')
             ->with('success', "{$jogo->titulo} foi adicionado à sua biblioteca.");
@@ -122,10 +151,16 @@ class ClienteController extends Controller
             'cvv.digits_between'           => 'O CVV deve ter 3 ou 4 dígitos.',
         ]);
 
-        BibliotecaItem::firstOrCreate([
-            'id_usuario' => $this->usuario()->id_usuario,
-            'id_jogo'    => $jogo->id_jogo,
-        ]);
+        BibliotecaItem::firstOrCreate(
+            [
+                'id_usuario' => $this->usuario()->id_usuario,
+                'id_jogo'    => $jogo->id_jogo,
+            ],
+            [
+                'horas_jogadas'  => 0,
+                'data_aquisicao' => now(),
+            ]
+        );
 
         return redirect()->route('cliente.biblioteca')
             ->with('success', "Pagamento confirmado! {$jogo->titulo} já está na sua biblioteca.");

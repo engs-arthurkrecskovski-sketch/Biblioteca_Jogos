@@ -11,7 +11,9 @@
             <div class="col-md-6 col-xl-4">
                 <div class="card card-jogo h-100">
                     <div class="card-body">
-                        <h5 class="card-title">{{ $item->jogo->titulo }}</h5>
+                        <h5 class="card-title">
+    <a href="{{ route('cliente.jogo', $item->id_jogo) }}" class="titulo-jogo">{{ $item->jogo->titulo }}</a>
+</h5>
                         <p class="text-muted mb-2">{{ $item->jogo->genero->nome ?? '' }}</p>
                         <p class="mb-0">
                             <i class="bi bi-clock-history me-1"></i>
