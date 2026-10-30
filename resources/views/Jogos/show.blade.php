@@ -33,7 +33,7 @@
         </div>
         <div class="col-md-4">
             <div class="card card-body text-center">
-                <div class="text-muted">Nota média (calculada pelo trigger)</div>
+                <div class="text-muted">Nota média</div>
                 <div class="fs-2">{{ $jogo->nota_media !== null ? number_format($jogo->nota_media, 2, ',', '.') : '-' }}</div>
                 <div class="text-muted">{{ $jogo->total_avaliacoes }} avaliação(ões)</div>
             </div>

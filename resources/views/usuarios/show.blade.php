@@ -42,7 +42,7 @@
                             </select>
                         </div>
                         <div class="col-auto">
-                            <button class="btn btn-success">Alterar plano (procedure)</button>
+                            <button class="btn btn-success">Alterar plano</button>
                         </div>
                     </form>
                 </div>
@@ -71,7 +71,7 @@
         </div>
         <div class="col-md-5">
             <div class="card mb-3">
-                <div class="card-header">Adicionar jogo à biblioteca (procedure + trigger)</div>
+                <div class="card-header">Adicionar jogo à biblioteca</div>
                 <div class="card-body">
                     <form method="POST" action="{{ route('usuarios.biblioteca.store', $usuario) }}" class="row g-2">
                         @csrf
@@ -83,7 +83,7 @@
                 </div>
             </div>
             <div class="card">
-                <div class="card-header">Últimos registros do log (trigger)</div>
+                <div class="card-header">Últimos registros do log</div>
                 <ul class="list-group list-group-flush">
                     @forelse ($logs as $log)
                         <li class="list-group-item small">
