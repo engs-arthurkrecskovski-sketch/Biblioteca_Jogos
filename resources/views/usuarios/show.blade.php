@@ -1,4 +1,4 @@
-@extends('layouts.app')
+﻿@extends('layouts.app')
 @section('titulo', $usuario->nome)
 
 @section('conteudo')
@@ -97,3 +97,5 @@
         </div>
     </div>
 @endsection
+
+
