@@ -15,7 +15,7 @@ class Administrador extends Authenticatable
 
     public function getAuthPassword(): string
     {
-        return $this->senha_hash;
+        return (string) $this->senha_hash;
     }
 
     public function getRememberTokenName(): string

@@ -2,11 +2,11 @@
 
 namespace App\Models;
 
-use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Database\Eloquent\Relations\HasOne;
+use Illuminate\Foundation\Auth\User as Authenticatable;
 
-class Usuario extends Model
+class Usuario extends Authenticatable
 {
     protected $table = 'biblioteca_jogos.usuarios';
     protected $primaryKey = 'id_usuario';
@@ -14,6 +14,16 @@ class Usuario extends Model
 
     protected $fillable = ['nome', 'email', 'senha_hash'];
     protected $hidden = ['senha_hash'];
+
+    public function getAuthPassword(): string
+    {
+        return (string) $this->senha_hash;
+    }
+
+    public function getRememberTokenName(): string
+    {
+        return '';
+    }
 
     public function assinatura(): HasOne
     {
