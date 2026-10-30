@@ -19,7 +19,7 @@ class LoginController extends Controller
             return redirect('/minha-biblioteca');
         }
 
-        return view('login');
+        return view('auth.login');
     }
 
 
