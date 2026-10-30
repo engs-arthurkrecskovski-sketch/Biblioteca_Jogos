@@ -1,10 +1,10 @@
 @extends('layouts.app')
 
-@section('titulo', 'Início – Biblioteca de Jogos')
+@section('titulo', 'Início – Save Point')
 
 @section('conteudo')
 
-    {{-- Hero --}}
+    {{-- Hero (a imagem de fundo vem do CSS: public/img/hero-jogos.jpg) --}}
     <section class="hero">
         <h1>Todos os seus jogos num só lugar</h1>
         <p>Explore o catálogo, acompanhe as bibliotecas dos usuários e veja quais jogos têm as melhores avaliações.</p>
@@ -13,7 +13,6 @@
     </section>
 
     {{-- Números --}}
-    {{-- Ajuste os nomes das variáveis para os que o seu controller envia --}}
     <div class="row g-3">
         <div class="col-6 col-xl-3">
             <div class="stat stat-teal">

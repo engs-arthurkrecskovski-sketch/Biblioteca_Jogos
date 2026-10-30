@@ -322,3 +322,20 @@ a:focus-visible, button:focus-visible { outline: 3px solid var(--amber); outline
 .titulo-jogo:hover {
     color: #fb8c4b;
 }
+
+.hero {
+  isolation: isolate;
+  background: url('../img/hero-jogos.jpg') center / cover no-repeat, var(--ink);
+}
+.hero::after { display: none; }
+
+.hero::before {
+  content: ""; position: absolute; inset: 0; z-index: 1;
+  background: linear-gradient(90deg,
+    rgba(10, 20, 28, .92) 0%, rgba(10, 20, 28, .78) 45%, rgba(10, 20, 28, .25) 100%);
+}
+.hero h1, .hero p, .hero .btn { position: relative; z-index: 2; }
+
+@media (max-width: 991.98px) {
+  .hero::before { background: linear-gradient(180deg, rgba(10,20,28,.9), rgba(10,20,28,.7)); }
+}
