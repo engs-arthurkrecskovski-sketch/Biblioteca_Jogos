@@ -54,7 +54,7 @@
             </button>
         </form>
 
-        <div class="side-footer">Engenharia de Software<br>Centro Universitário Campo Real</div>
+        <div class="side-footer"><br></div>
     </aside>
 
     <div class="main">
