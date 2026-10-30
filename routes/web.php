@@ -41,7 +41,12 @@ Route::middleware('auth:web')->prefix('cliente')->name('cliente.')->group(functi
     Route::get('/', [ClienteController::class, 'inicio'])->name('inicio');
     Route::get('/biblioteca', [ClienteController::class, 'biblioteca'])->name('biblioteca');
     Route::get('/loja', [ClienteController::class, 'loja'])->name('loja');
+
     Route::post('/loja/{jogo}/comprar', [ClienteController::class, 'comprar'])->name('comprar');
+
+    Route::get('/loja/{jogo}/checkout', [ClienteController::class, 'checkout'])->name('checkout');
+    Route::post('/loja/{jogo}/pagar', [ClienteController::class, 'pagar'])->name('pagar');
+
     Route::get('/avaliar', [ClienteController::class, 'avaliar'])->name('avaliar');
     Route::post('/avaliar/{jogo}', [ClienteController::class, 'salvarAvaliacao'])->name('avaliar.salvar');
 });

@@ -27,16 +27,18 @@
                         <strong>{{ $pago ? 'R$ ' . number_format($jogo->preco, 2, ',', '.') : 'Grátis' }}</strong>
                     </div>
                     <div class="card-footer bg-transparent border-0">
-                        <form method="POST" action="{{ route('cliente.comprar', $jogo->id_jogo) }}">
-                            @csrf
-                            <button type="submit" class="btn btn-sm btn-accent w-100">
-                                @if ($pago)
-                                    <i class="bi bi-cart-check me-1"></i> Comprar
-                                @else
+                        @if ($pago)
+                            <a href="{{ route('cliente.checkout', $jogo->id_jogo) }}" class="btn btn-sm btn-accent w-100">
+                                <i class="bi bi-cart-check me-1"></i> Comprar
+                            </a>
+                        @else
+                            <form method="POST" action="{{ route('cliente.comprar', $jogo->id_jogo) }}">
+                                @csrf
+                                <button type="submit" class="btn btn-sm btn-accent w-100">
                                     <i class="bi bi-bag-plus me-1"></i> Adicionar à biblioteca
-                                @endif
-                            </button>
-                        </form>
+                                </button>
+                            </form>
+                        @endif
                     </div>
                 </div>
             </div>

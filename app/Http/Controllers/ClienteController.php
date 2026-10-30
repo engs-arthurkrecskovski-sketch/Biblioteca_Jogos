@@ -8,12 +8,18 @@ use App\Models\Jogo;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Str;
 
 class ClienteController extends Controller
 {
     private function usuario()
     {
         return Auth::guard('web')->user();
+    }
+
+    private function jogoJaNaBiblioteca(Jogo $jogo): bool
+    {
+        return $this->usuario()->biblioteca()->where('id_jogo', $jogo->id_jogo)->exists();
     }
 
     public function inicio()
@@ -54,16 +60,75 @@ class ClienteController extends Controller
 
     public function comprar(Jogo $jogo): RedirectResponse
     {
+        if (($jogo->preco ?? 0) > 0) {
+            return redirect()->route('cliente.checkout', $jogo->id_jogo);
+        }
+
         BibliotecaItem::firstOrCreate([
             'id_usuario' => $this->usuario()->id_usuario,
             'id_jogo'    => $jogo->id_jogo,
         ]);
 
-        $mensagem = ($jogo->preco ?? 0) > 0
-            ? "{$jogo->titulo} foi comprado e já está na sua biblioteca."
-            : "{$jogo->titulo} foi adicionado à sua biblioteca.";
+        return redirect()->route('cliente.biblioteca')
+            ->with('success', "{$jogo->titulo} foi adicionado à sua biblioteca.");
+    }
 
-        return redirect()->route('cliente.biblioteca')->with('success', $mensagem);
+    public function checkout(Jogo $jogo)
+    {
+        if ($this->jogoJaNaBiblioteca($jogo)) {
+            return redirect()->route('cliente.biblioteca')
+                ->with('success', "{$jogo->titulo} já está na sua biblioteca.");
+        }
+
+        if (($jogo->preco ?? 0) <= 0) {
+            return redirect()->route('cliente.loja');
+        }
+
+        $jogo->load('genero');
+
+        $pixCodigo = '00020126580014BR.GOV.BCB.PIX0136' . Str::uuid()
+            . '5204000053039865406' . number_format($jogo->preco, 2, '', '')
+            . '5802BR5909SAVEPOINT6009SAO PAULO6304ABCD';
+
+        return view('cliente.checkout', compact('jogo', 'pixCodigo'));
+    }
+
+    public function pagar(Request $request, Jogo $jogo): RedirectResponse
+    {
+        if (($jogo->preco ?? 0) <= 0) {
+            return redirect()->route('cliente.loja');
+        }
+
+        if ($request->filled('numero_cartao')) {
+            $request->merge([
+                'numero_cartao' => preg_replace('/\D/', '', $request->numero_cartao),
+            ]);
+        }
+
+        $request->validate([
+            'metodo'        => ['required', 'in:pix,cartao'],
+            'nome_cartao'   => ['required_if:metodo,cartao', 'nullable', 'string', 'max:60'],
+            'numero_cartao' => ['required_if:metodo,cartao', 'nullable', 'digits_between:13,19'],
+            'validade'      => ['required_if:metodo,cartao', 'nullable', 'regex:/^(0[1-9]|1[0-2])\/\d{2}$/'],
+            'cvv'           => ['required_if:metodo,cartao', 'nullable', 'digits_between:3,4'],
+        ], [
+            'metodo.required'              => 'Escolha a forma de pagamento.',
+            'nome_cartao.required_if'      => 'Informe o nome impresso no cartão.',
+            'numero_cartao.required_if'    => 'Informe o número do cartão.',
+            'numero_cartao.digits_between' => 'O número do cartão deve ter entre 13 e 19 dígitos.',
+            'validade.required_if'         => 'Informe a validade do cartão.',
+            'validade.regex'               => 'A validade deve estar no formato MM/AA.',
+            'cvv.required_if'              => 'Informe o código de segurança (CVV).',
+            'cvv.digits_between'           => 'O CVV deve ter 3 ou 4 dígitos.',
+        ]);
+
+        BibliotecaItem::firstOrCreate([
+            'id_usuario' => $this->usuario()->id_usuario,
+            'id_jogo'    => $jogo->id_jogo,
+        ]);
+
+        return redirect()->route('cliente.biblioteca')
+            ->with('success', "Pagamento confirmado! {$jogo->titulo} já está na sua biblioteca.");
     }
 
     public function avaliar()
