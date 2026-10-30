@@ -16,7 +16,7 @@
     <div class="row g-3 mb-4">
         <div class="col-md-4">
             <div class="card card-body text-center">
-                <div class="text-muted">Horas jogadas (function fn_total_horas_usuario)</div>
+                <div class="text-muted">Horas jogadas</div>
                 <div class="fs-2">{{ number_format($totalHoras, 1, ',', '.') }} h</div>
             </div>
         </div>
