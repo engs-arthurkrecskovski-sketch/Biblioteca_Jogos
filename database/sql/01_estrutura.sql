@@ -1,8 +1,4 @@
--- =====================================================
--- 01_estrutura.sql
--- Schema e tabelas da Biblioteca Digital de Jogos
--- Rodar PRIMEIRO, em banco vazio.
--- =====================================================
+
 CREATE SCHEMA IF NOT EXISTS biblioteca_jogos;
 
 SET search_path TO biblioteca_jogos;
