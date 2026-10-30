@@ -17,7 +17,6 @@ class AssinaturaController extends Controller
         ]);
 
         try {
-            // chama a procedure sp_renovar_assinatura
             $service->renovar($usuario->id_usuario, $dados['plano']);
         } catch (RegraDeNegocioException $e) {
             return back()->withErrors(['plano' => $e->getMessage()]);

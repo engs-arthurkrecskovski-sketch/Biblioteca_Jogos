@@ -1,16 +1,16 @@
 :root {
-  --ink: #1b1744;         
-  --ink-2: #26215a;      
-  --ink-text: #b9b5e0;   
-  --accent: #2dd4bf;       
-  --accent-deep: #0f9e8e;
-  --amber: #f59e0b;        
+  --ink: #12222c;          
+  --ink-2: #1c3340;       
+  --ink-text: #a9bcc8;    
+  --accent: #ff8a4c;      
+  --accent-deep: #d9571d;
+  --amber: #f5b301;        
   --rose: #f43f5e;
-  --bg: #f4f5fb;
+  --bg: #f2f5f7;
   --surface: #ffffff;
   --text: #1c1b33;
   --muted: #6b6a85;
-  --line: #e4e5f0;
+  --line: #e1e7ec;
   --sidebar-w: 264px;
   --radius: 14px;
 }
@@ -45,13 +45,13 @@ h1, h2, h3, h4, .brand-name { font-family: 'Sora', 'DM Sans', sans-serif; letter
 .brand-icon {
   width: 42px; height: 42px; border-radius: 12px;
   display: grid; place-items: center;
-  background: linear-gradient(135deg, var(--accent), #3b82f6);
+  background: linear-gradient(135deg, #ff8a4c, #ffc46b);
   color: var(--ink); font-size: 1.35rem;
 }
 .brand-name { font-weight: 700; font-size: 1.05rem; line-height: 1.1; }
 .brand-name small { display: block; font-family: 'DM Sans'; font-weight: 400; font-size: .75rem; color: var(--ink-text); letter-spacing: 0; }
 
-.side-label { font-size: .75rem; color: #7c78b3; padding: 0 .75rem .5rem; }
+.side-label { font-size: .75rem; color: #6f8796; padding: 0 .75rem .5rem; }
 
 .side-nav { list-style: none; margin: 0; padding: 0; display: grid; gap: .25rem; }
 .side-nav a {
@@ -69,7 +69,7 @@ h1, h2, h3, h4, .brand-name { font-family: 'Sora', 'DM Sans', sans-serif; letter
 .side-footer {
   margin-top: auto; padding: .9rem .75rem;
   border-top: 1px solid rgba(255,255,255,.08);
-  font-size: .8rem; color: #7c78b3;
+  font-size: .8rem; color: #6f8796;
 }
 
 .main { margin-left: var(--sidebar-w); min-height: 100vh; }
@@ -99,7 +99,7 @@ h1, h2, h3, h4, .brand-name { font-family: 'Sora', 'DM Sans', sans-serif; letter
   background: var(--accent); color: var(--ink); font-weight: 700;
   border: 0; border-radius: 10px; padding: .65rem 1.25rem;
 }
-.btn-accent:hover { background: #5eead4; color: var(--ink); }
+.btn-accent:hover { background: #ffa270; color: var(--ink); }
 .btn-ghost {
   background: rgba(255,255,255,.1); color: #fff; font-weight: 500;
   border: 0; border-radius: 10px; padding: .65rem 1.25rem;
@@ -121,7 +121,8 @@ h1, h2, h3, h4, .brand-name { font-family: 'Sora', 'DM Sans', sans-serif; letter
 .stat-value { font-family: 'Sora'; font-size: 1.65rem; font-weight: 700; line-height: 1.1; }
 .stat-label { color: var(--muted); font-size: .9rem; }
 
-.tone-teal  { background: #d9f7f3; color: var(--accent-deep); }
+.tone-teal  { background: #d6f3ee; color: #0b8576; }
+.tone-orange{ background: #ffe6d6; color: #c24a12; }
 .tone-amber { background: #fef0cf; color: #b87503; }
 .tone-rose  { background: #ffe1e7; color: #cc2145; }
 .tone-blue  { background: #dfe9ff; color: #2f5fd0; }
@@ -142,17 +143,17 @@ h1, h2, h3, h4, .brand-name { font-family: 'Sora', 'DM Sans', sans-serif; letter
 .card { border: 1px solid var(--line); border-radius: var(--radius); box-shadow: none; }
 .card-header { background: var(--surface); border-bottom: 1px solid var(--line); font-weight: 600; }
 .table > :not(caption) > * > * { padding: .85rem 1rem; }
-.table thead th { color: var(--muted); font-weight: 600; font-size: .85rem; border-bottom-color: var(--line); background: #fafaff; }
+.table thead th { color: var(--muted); font-weight: 600; font-size: .85rem; border-bottom-color: var(--line); background: #f7f9fb; }
 .btn-primary { background: var(--accent-deep); border-color: var(--accent-deep); }
-.btn-primary:hover { background: #0c8577; border-color: #0c8577; }
-.form-control:focus, .form-select:focus { border-color: var(--accent); box-shadow: 0 0 0 .2rem rgba(45,212,191,.25); }
+.btn-primary:hover { background: #bd4513; border-color: #bd4513; }
+.form-control:focus, .form-select:focus { border-color: var(--accent); box-shadow: 0 0 0 .2rem rgba(255,138,76,.25); }
 .pagination { --bs-pagination-active-bg: var(--accent-deep); --bs-pagination-active-border-color: var(--accent-deep); --bs-pagination-color: var(--accent-deep); }
 
 a:focus-visible, button:focus-visible { outline: 3px solid var(--amber); outline-offset: 2px; }
 
 @media (max-width: 991.98px) {
   .sidebar { transform: translateX(-100%); }
-  .sidebar.open { transform: none; box-shadow: 0 0 0 100vmax rgba(10,8,30,.55); }
+  .sidebar.open { transform: none; box-shadow: 0 0 0 100vmax rgba(6,14,20,.55); }
   .main { margin-left: 0; }
   .topbar-mobile {
     display: flex; align-items: center; gap: .75rem;

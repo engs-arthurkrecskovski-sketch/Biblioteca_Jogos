@@ -63,7 +63,6 @@ class UsuarioController extends Controller
             ->limit(5)
             ->get();
 
-        // chamada da function fn_total_horas_usuario
         $totalHoras = $this->bibliotecaService->totalHoras($usuario->id_usuario);
 
         return view('usuarios.show', compact('usuario', 'biblioteca', 'logs', 'totalHoras'));

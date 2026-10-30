@@ -15,7 +15,6 @@ class RankingController extends Controller
         $ranking = [];
 
         if ($generoSelecionado) {
-            // chama a function fn_ranking_jogos_genero
             $ranking = $service->porGenero((int) $generoSelecionado, 10);
         }
 

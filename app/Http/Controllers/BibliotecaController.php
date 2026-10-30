@@ -18,7 +18,6 @@ class BibliotecaController extends Controller
         ]);
 
         try {
-            // chama a procedure sp_adicionar_jogo_biblioteca (o trigger grava o log)
             $service->adicionarJogo($usuario->id_usuario, (int) $dados['id_jogo']);
         } catch (RegraDeNegocioException $e) {
             return back()->withErrors(['id_jogo' => $e->getMessage()])->withInput();
