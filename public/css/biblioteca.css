@@ -401,3 +401,24 @@ a:focus-visible, button:focus-visible { outline: 3px solid var(--amber); outline
     background: transparent;
     color: #1b2733;
 }
+
+.cart-bar {
+    padding: .5rem 2.5rem 0;      
+}
+
+.content {
+    padding-top: 1rem;            
+}
+
+.content > .section-title:first-child {
+    margin-top: 0;
+}
+
+@media (max-width: 991.98px) {
+    .cart-bar {
+        padding: .5rem 1.1rem 0;
+    }
+    .content {
+        padding-top: .75rem;
+    }
+}

@@ -61,7 +61,14 @@
                                 <label class="form-check-label" for="metodoPix"><i class="bi bi-qr-code me-1"></i> Pagar com Pix</label>
                             </div>
                             <div id="boxPix" class="border rounded p-3 mb-3">
-                                <p class="mb-2">Copie o código abaixo e pague no app do seu banco:</p>
+                                {{-- QR Code (fundo branco para facilitar a leitura no app do banco) --}}
+                                <div class="text-center mb-3">
+                                    <div class="d-inline-block p-2 bg-white border rounded">
+                                        {!! QrCode::format('svg')->size(200)->margin(1)->errorCorrection('M')->generate(url('/mensagem')) !!}
+                                    </div>
+                                </div>
+
+                                <p class="mb-2">Escaneie o QR Code ou copie o código abaixo e pague no app do seu banco:</p>
                                 <textarea id="pixCodigo" class="form-control mb-2" rows="3" readonly>{{ $pixCodigo }}</textarea>
                                 <button type="button" id="btnCopiar" class="btn btn-sm btn-outline-secondary">
                                     <i class="bi bi-clipboard me-1"></i> Copiar código
