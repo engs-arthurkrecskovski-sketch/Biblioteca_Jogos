@@ -21,7 +21,7 @@
 
     {{-- Sidebar --}}
     <aside class="sidebar" id="sidebar">
-        <a href="{{ url('/') }}" class="brand">
+        <a href="{{ route('home') }}" class="brand">
             <span class="brand-icon"><i class="bi bi-controller"></i></span>
             <span class="brand-name">Save Point<small>Painel Administrativo</small></span>
         </a>
@@ -29,26 +29,34 @@
         <div class="side-label">Menu</div>
         <ul class="side-nav">
             <li>
-                <a href="{{ url('/') }}" class="{{ request()->is('/') ? 'active' : '' }}">
+                <a href="{{ route('home') }}" class="{{ request()->routeIs('home') ? 'active' : '' }}">
                     <i class="bi bi-house-door"></i> Início
                 </a>
             </li>
             <li>
-                <a href="{{ url('/jogos') }}" class="{{ request()->is('jogos*') ? 'active' : '' }}">
+                <a href="{{ route('jogos.index') }}" class="{{ request()->routeIs('jogos.*') ? 'active' : '' }}">
                     <i class="bi bi-joystick"></i> Jogos
                 </a>
             </li>
             <li>
-                <a href="{{ url('/usuarios') }}" class="{{ request()->is('usuarios*') ? 'active' : '' }}">
+                <a href="{{ route('usuarios.index') }}" class="{{ request()->routeIs('usuarios.*') ? 'active' : '' }}">
                     <i class="bi bi-people"></i> Usuários
                 </a>
             </li>
             <li>
-                <a href="{{ url('/ranking') }}" class="{{ request()->is('ranking*') ? 'active' : '' }}">
+                <a href="{{ route('ranking') }}" class="{{ request()->routeIs('ranking') ? 'active' : '' }}">
                     <i class="bi bi-trophy"></i> Ranking
                 </a>
             </li>
         </ul>
+
+        {{-- Sair: precisa ser POST (com @csrf), nunca um link simples --}}
+        <form method="POST" action="{{ route('logout') }}" class="px-3 mt-3">
+            @csrf
+            <button type="submit" class="btn btn-sm w-100 text-start side-logout">
+                <i class="bi bi-box-arrow-left"></i> Sair
+            </button>
+        </form>
 
         <div class="side-footer">Engenharia de Software<br>Centro Universitário Campo Real</div>
     </aside>
