@@ -9,7 +9,7 @@
     @forelse ($itens as $item)
         @php $minha = $minhasNotas[$item->id_jogo] ?? null; @endphp
 
-        <div class="card mb-3">
+        <div class="card card-jogo mb-3">
             <div class="card-body">
                 <h5 class="card-title mb-3">
                     {{ $item->jogo->titulo }}

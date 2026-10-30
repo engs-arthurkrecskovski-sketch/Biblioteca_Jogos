@@ -20,7 +20,7 @@
             @php $pago = ($jogo->preco ?? 0) > 0; @endphp
 
             <div class="col-md-6 col-xl-4">
-                <div class="card h-100">
+                <div class="card card-jogo h-100">
                     <div class="card-body">
                         <h5 class="card-title">{{ $jogo->titulo }}</h5>
                         <p class="text-muted mb-2">{{ $jogo->genero->nome ?? '' }}</p>

@@ -18,7 +18,7 @@ class LoginController extends Controller
             return redirect()->route('cliente.inicio');
         }
 
-        return view('login');
+        return view('auth.login');
     }
 
     public function entrar(Request $request): RedirectResponse

@@ -298,3 +298,19 @@ a:focus-visible, button:focus-visible { outline: 3px solid var(--amber); outline
     color: #fff;
     background: rgba(255, 255, 255, .08);
 }
+
+.card-jogo {
+    border: 1px solid #cfd6e2;
+    border-radius: 14px;
+    transition: transform .2s ease, box-shadow .2s ease, border-color .2s ease;
+}
+.card-jogo:hover {
+    transform: translateY(-4px);
+    border-color: #fb8c4b;
+    box-shadow: 0 10px 24px rgba(15, 23, 42, .12);
+}
+
+@media (prefers-reduced-motion: reduce) {
+    .card-jogo { transition: none; }
+    .card-jogo:hover { transform: none; }
+}
