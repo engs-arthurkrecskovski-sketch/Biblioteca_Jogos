@@ -1,16 +1,17 @@
+
 :root {
-  --ink: #12222c;        
+  --ink: #12222c;         
   --ink-2: #1c3340;        
-  --ink-text: #a9bcc8;     
+  --ink-text: #a9bcc8;    
   --accent: #ff8a4c;       
   --accent-deep: #d9571d;
   --amber: #f5b301;        
   --rose: #f43f5e;
-  --bg: #f2f5f7;
+  --bg: #e8ebef;
   --surface: #ffffff;
   --text: #1c1b33;
   --muted: #6b6a85;
-  --line: #e1e7ec;
+  --line: #d6dce3;
   --sidebar-w: 264px;
   --radius: 14px;
 }
@@ -143,7 +144,7 @@ h1, h2, h3, h4, .brand-name { font-family: 'Sora', 'DM Sans', sans-serif; letter
 .card { border: 1px solid var(--line); border-radius: var(--radius); box-shadow: none; }
 .card-header { background: var(--surface); border-bottom: 1px solid var(--line); font-weight: 600; }
 .table > :not(caption) > * > * { padding: .85rem 1rem; }
-.table thead th { color: var(--muted); font-weight: 600; font-size: .85rem; border-bottom-color: var(--line); background: #f7f9fb; }
+.table thead th { color: var(--muted); font-weight: 600; font-size: .85rem; border-bottom-color: var(--line); background: #f3f5f8; }
 .btn-primary { background: var(--accent-deep); border-color: var(--accent-deep); }
 .btn-primary:hover { background: #bd4513; border-color: #bd4513; }
 .form-control:focus, .form-select:focus { border-color: var(--accent); box-shadow: 0 0 0 .2rem rgba(255,138,76,.25); }
@@ -176,7 +177,7 @@ a:focus-visible, button:focus-visible { outline: 3px solid var(--amber); outline
 
 .table {
   --bs-table-striped-bg: transparent;
-  --bs-table-hover-bg: #f7f9fb;
+  --bs-table-hover-bg: #f3f5f8;
   margin: 0;
 }
 .table > tbody > tr > * { border-bottom-color: var(--line); vertical-align: middle; }
@@ -230,3 +231,16 @@ a:focus-visible, button:focus-visible { outline: 3px solid var(--amber); outline
 .empty { padding: 2.5rem 1rem; text-align: center; color: var(--muted); }
 .empty i { font-size: 2rem; display: block; margin-bottom: .5rem; }
 .pager { margin-top: 1.25rem; }
+
+.page-head { align-items: center; }
+
+.content a.game-title:not(.btn):not(.page-link) { color: var(--text); font-weight: 600; }
+.content a.game-title:not(.btn):not(.page-link):hover { color: var(--accent-deep); }
+
+.table-responsive, .stat, .shortcut { box-shadow: 0 1px 2px rgba(18, 34, 44, .06); }
+
+.btn-ink { background: var(--ink); border-color: var(--ink); color: #fff; }
+.btn-ink:hover { background: var(--ink-2); border-color: var(--ink-2); color: #fff; }
+
+.table thead th { border-bottom: 1px solid var(--line); }
+.genre { background: #e6ebf0; }

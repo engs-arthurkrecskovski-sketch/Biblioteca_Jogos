@@ -17,7 +17,7 @@
             <i class="bi bi-search"></i>
             <input type="text" name="busca" value="{{ request('busca') }}" class="form-control" placeholder="Buscar pelo título">
         </div>
-        <button class="btn btn-primary">Buscar</button>
+        <button class="btn btn-ink">Buscar</button>
         @if (request('busca'))
             <a href="{{ route('jogos.index') }}" class="btn btn-outline-secondary">Limpar</a>
         @endif
