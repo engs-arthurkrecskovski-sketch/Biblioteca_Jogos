@@ -16,14 +16,14 @@
     {{-- Barra superior (só aparece no celular) --}}
     <div class="topbar-mobile">
         <button type="button" id="menuToggle" aria-label="Abrir menu"><i class="bi bi-list"></i></button>
-        <strong class="brand-name">Biblioteca de Jogos</strong>
+        <strong class="brand-name">Save Point - Painel Administrativo</strong>
     </div>
 
     {{-- Sidebar --}}
     <aside class="sidebar" id="sidebar">
         <a href="{{ url('/') }}" class="brand">
             <span class="brand-icon"><i class="bi bi-controller"></i></span>
-            <span class="brand-name">Biblioteca<small>de Jogos</small></span>
+            <span class="brand-name">Save Point<small>Painel Administrativo</small></span>
         </a>
 
         <div class="side-label">Menu</div>

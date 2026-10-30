@@ -3,7 +3,7 @@
 
 @section('conteudo')
     <h1 class="h3 mb-3">Ranking de jogos por gênero</h1>
-    <p class="text-muted">Usa a function <code>fn_ranking_jogos_genero</code> do PostgreSQL.</p>
+   <p class="page-sub">Veja os jogos mais bem avaliados de cada gênero!</p>
 
     <form method="GET" action="{{ route('ranking') }}" class="row g-2 mb-4">
         <div class="col-md-6">
