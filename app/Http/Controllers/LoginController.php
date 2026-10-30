@@ -8,7 +8,6 @@ use Illuminate\Support\Facades\Auth;
 
 class LoginController extends Controller
 {
-
     public function form()
     {
         if (Auth::guard('admin')->check()) {
@@ -16,12 +15,11 @@ class LoginController extends Controller
         }
 
         if (Auth::guard('web')->check()) {
-            return redirect('/minha-biblioteca');
+            return redirect()->route('cliente.inicio');
         }
 
-        return view('auth.login');
+        return view('login');
     }
-
 
     public function entrar(Request $request): RedirectResponse
     {
@@ -45,7 +43,7 @@ class LoginController extends Controller
         if (Auth::guard('web')->attempt($credenciais, $lembrar)) {
             $request->session()->regenerate();
 
-            return redirect()->intended('/minha-biblioteca');
+            return redirect()->intended(route('cliente.inicio'));
         }
 
         return back()
@@ -53,6 +51,7 @@ class LoginController extends Controller
             ->onlyInput('email');
     }
 
+   
     public function sair(Request $request): RedirectResponse
     {
         Auth::guard('admin')->logout();

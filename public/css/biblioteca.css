@@ -288,3 +288,13 @@ a:focus-visible, button:focus-visible { outline: 3px solid var(--amber); outline
     color: #fff;
     background: rgba(255, 255, 255, .08);
 }
+
+.side-logout {
+    color: #cbd5e1;
+    border: 1px solid rgba(255, 255, 255, .15);
+    background: transparent;
+}
+.side-logout:hover {
+    color: #fff;
+    background: rgba(255, 255, 255, .08);
+}
