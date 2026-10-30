@@ -1,8 +1,8 @@
 @extends('layouts.app')
 
-@section('title', 'Início – Biblioteca de Jogos')
+@section('titulo', 'Início – Biblioteca de Jogos')
 
-@section('content')
+@section('conteudo')
 
     {{-- Hero --}}
     <section class="hero">
